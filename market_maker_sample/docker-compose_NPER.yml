@@ -1,0 +1,43 @@
+version: '3.2'
+services:
+
+  dex_nper_eth:
+    image: registry.ibitcome.com:8443/quant/quant-process:0.1.0
+    labels:
+      - quant-online.logs.dex_nper_eth=stdout
+      - quant-online.logs.dex_nper_eth.format=json
+    logging:
+      driver: json-file
+      options:
+          max-size: "10m"
+          max-file: "2"
+    networks:
+      - quant-skeleton
+    volumes:
+      - type: volume
+        source: dex_nper_eth_2
+        target: /data
+        volume:
+          nocopy: true
+
+    deploy:
+      placement:
+        constraints: [node.labels.strategy == strategy]
+    command: 
+      - /bin/sh
+      - -c
+      - |
+          pip install -r /data/strategy_requirements.txt 
+          quant_process --debug -c /data/Params_NPER.json /data/strategy_dex_v1.3.1.py
+
+networks:
+  quant-skeleton:
+    external: true
+
+volumes:
+  dex_nper_eth_2:
+    driver: local
+    driver_opts:
+      type: "nfs"
+      o: "addr=fs-0214f623.efs.ap-northeast-1.amazonaws.com,nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport"
+      device: "fs-0214f623.efs.ap-northeast-1.amazonaws.com:/stream-config/production/Quant-Strategy/Market-Maker/before_start/Dex_Market_Making_Strategy"

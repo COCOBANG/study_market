@@ -1,0 +1,39 @@
+{
+
+    "BEFORE_START": ["db_sql"],
+    "ENTRY_POINT": "main",
+
+    "IfUsingETHasBM": 0,
+    "IfNotUsingHisData": 1,
+    "symbol": "NPER/ETH",
+    "MMmarket": "dex",
+    "benchmark": "feixiaohao",
+    "benchmark2": "cmc",
+    "benmarkDataCountMax": 10,
+    "symbol_BM": "NPER/ETH",
+    "TimeWindow": 6,
+    "StdCo": 1.6,
+    "spread2BM": 6,
+    "BestPriceOrderNum": 0.1,
+    "nonBestPriceOrderNumMax": 2,
+    "InventoryAdjustCo": 1,
+    "InventoryWant2be": 320937,
+    "AlphaAdjustConstant": 0,
+    "SelfTradeFreq": 60,
+    "SelfTradeTotalMax": 3.5,
+    "Slave_Inventory_Total_MIN": 15,
+    "Slave_Cash_Total_MIN": 20,
+    "Master_Inventory_free_MIN": 8,
+    "Master_Cash_free_MIN": 10,
+    "TakerOrderCost": 0.0020,
+    "MakerOrderCost": 0.0010,
+
+    "b": 0.6,
+    "ETH0": 451.90,
+    "Price0": 0.00020000,
+
+    "spreadRatio0": 0.0300,
+    "PDiff0": 0,
+    "symbol_HisData": "NPER/ETH"
+
+}

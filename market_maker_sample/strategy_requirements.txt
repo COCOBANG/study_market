@@ -1,0 +1,13 @@
+uvloop
+aiofiles
+aiohttp
+aioredis
+aiopg
+async_timeout
+numpy
+pandas
+scipy
+scikit-learn
+ujson
+pg8000
+sqlalchemy
