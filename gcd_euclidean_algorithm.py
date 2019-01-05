@@ -18,14 +18,11 @@ def gcd(a, b):
     Outputs:
         c: 最大公约数    
     """
-    # 先求出a和b中较大数maxnum和较小数minnum
-    maxnum = max(a, b)
-    minnum = min(a, b)
-    # 然后进行迭代，迭代结束条件为minnum==0
-    if minnum == 0:
-        return maxnum
+    # 进行迭代，迭代结束条件为b==0
+    if b == 0:
+        return a
     else:
-        return gcd(minnum, maxnum%minnum)
+        return gcd(b, a%b)
 
 # gbs(a, b)
 def gbs(a, b):
@@ -59,22 +56,23 @@ def canMeasureWater(x, y, z):
         return False
 
 # gcd_integer_solution
-def gcd_integer_solution(maxnum, minnum):
+def gcd_integer_solution(p, q):
     """
     求一个形如px+qy=gcd(p,q)(p、q均为正整数)方程的整数解的函数。
     Inputs:
-        maxnum, minnum: 方程左边的系数，注意这里要区分大小
+       p, q: 方程左边的系数
     Outputs:
-        x, y: 与maxnum和minnum对应的未知数的解
+        x, y: 与p, q对应的未知数的解
     """
-    # 递归终止条件: 较小值等于0时
-    if minnum == 0:
+    # 递归终止条件: q等于0时
+    if q == 0:
         return 1, 0  # 返回(1,0)——当方程右侧是gcd(p,q)时，最后的解肯定是(1,0)
     # 递归的过程：调用函数取出(n+1)轮的解(x,y)，利用递推公式计算n轮的解(x,y)并return它
+    ### 递归式子之前的过程是“向下递归”，之后的过程是“向上递归”
     else:
-        x, y = gcd_integer_solution(minnum, maxnum%minnum)  # (p,q)-->(q,p%q)的递归过程
+        x, y = gcd_integer_solution(p, p%q)  # (p,q)-->(q,p%q)的递归过程
         a = y  # 将(n+1)轮的解转换为n轮，引入a是避免交叉赋值出错
-        y = x - (maxnum//minnum)*a
+        y = x - (p//q)*a
         x = a
         return x, y
 
@@ -92,13 +90,9 @@ def integer_solution(p, q, c):
     # 只有在方程有解时才求解
     if c%gcd_p_q == 0:
         # 首先求解px+qy=gcd(p,q)
-        maxnum = max(p, q)
-        minnum = min(p, q)
-        max_gcd, min_gcd = gcd_integer_solution(maxnum, minnum)
+        x_gcd, y_gcd = gcd_integer_solution(p, q)
         # 然后转换为px+qy=c=gcd(p,q)*(c/gcd(p,q))的解
-        max_coef, min_coef = max_gcd*(c/gcd_p_q), min_gcd*(c/gcd_p_q)
-        x = (p>=q)*max_coef + (p<q)*min_coef  # x和y依据p、q大小来取值
-        y = (p>=q)*min_coef + (p<q)*max_coef       
+        x, y = x_gcd*(c/gcd_p_q), y_gcd*(c/gcd_p_q)    
         return x, y
     # 方程无解时返回两个None
     else:
