@@ -8,11 +8,12 @@ Created on Thu Jan  3 09:23:12 2019
 import numpy as np
 
 # 二分查找
+### 找到即可，有重复值时找重复值的位置和length有关
 def binary_search(list_input, item):
     low = 0
     high = len(list_input) - 1
     while low <= high:
-        mid = int((low+high) / 2)
+        mid = (low+high) // 2
         guess = list_input[mid]
         if guess == item:
             return mid
@@ -22,8 +23,49 @@ def binary_search(list_input, item):
             low = mid + 1
     return None
 
-list_input = [1, 5, 7, 9, 12]
-print(binary_search(list_input, 10))
+### 如果出现重复值，则找第一个值出现的位置(first)
+def binary_search_first(list_input, item):
+    low = 0
+    high = len(list_input) - 1
+    while low <= high:
+        mid = (low+high) // 2
+        guess = list_input[mid]
+        if guess < item:
+            low = mid + 1
+        else:  # 和标准二分查找的不同之处:(1)即使guss=item也不一定停止搜索; (2)high的更新不是(mid-1)
+            high = mid
+        if low == high:
+            return low
+    return None
+
+### 如果出现重复值，则找最后一个值出现的位置(last)
+def binary_search_last(list_input, item):
+    low = 0
+    high = len(list_input) - 1
+    while low <= high:
+        mid = (low+high) // 2 + 1  # 注意mid和之前的不同
+        guess = list_input[mid]
+        if guess > item:
+            high = mid - 1
+        else:  # 和标准二分查找的不同之处:(1)即使guss=item也不一定停止搜索; (2)low的更新不是(mid+1)
+            low = mid
+        if low == high:
+            return low
+    return None
+
+list_input = [1, 5, 9, 9, 12]
+print('test1 of binary_search:')
+print(f'Inputs: {list_input}')
+print(f'只要求找到即可的binary_search: {binary_search(list_input, 9)}')
+print(f'如果有重复值，则找到的是第一个出现的位置: {binary_search_first(list_input, 9)}')
+print(f'如果有重复值，则找到的是最后一个出现的位置: {binary_search_last(list_input, 9)}')
+
+list_input = [1, 5, 9, 9, 9, 9, 12]
+print('test2 of binary_search:')
+print(f'Inputs: {list_input}')
+print(f'只要求找到即可的binary_search: {binary_search(list_input, 9)}')
+print(f'如果有重复值，则找到的是第一个出现的位置: {binary_search_first(list_input, 9)}')
+print(f'如果有重复值，则找到的是最后一个出现的位置: {binary_search_last(list_input, 9)}')
 
 
 # 选择排序
