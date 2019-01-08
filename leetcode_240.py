@@ -5,7 +5,7 @@ leetcode_240.py
 @author: yuxun
 """
 """
-leetcode_4: searchMatrix
+leetcode_240: searchMatrix
 Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
 Integers in each row are sorted in ascending from left to right.
 Integers in each column are sorted in ascending from top to bottom.
@@ -65,7 +65,7 @@ class Solution:
         return False
   
     
-     def searchMatrix3(self, matrix, target):
+    def searchMatrix3(self, matrix, target):
         # 基线条件(空矩阵)
         if len(matrix) == 0:  # 空矩阵
             return False
@@ -79,14 +79,17 @@ class Solution:
         while low_mn <= high_mn:
             mid_mn = (low_mn+high_mn) // 2
             # 为diag序列的左边添加一个-inf，右边添加一个inf的操作(这样总是能找到这样的元素--有可能取边界值)
-            if mid_mn == 0:
-                if min_mn == 1:
+            ### 这样处理的好处：(有序取两值的情况)
+            ### (1) 不需要单独讨论边界情况，有统一的处理公式
+            ### (2) 不需要关注越界、元素个数为1等问题
+            if mid_mn == 0:  # 左边界取值
+                if high_mn == 0:  # high_mn等于0时，向左添加一个-inf
                     lft, rgt = -inf, matrix[0][0]
-                else:
+                else:             # high_mn等于1时，取[0][0]和[1][1]
                     lft, rgt = matrix[0][0], matrix[1][1]
-            elif mid_mn == min_mn-1:
+            elif mid_mn == min_mn-1:  # 右边界取值
                 lft, rgt = matrix[mid_mn][mid_mn], inf
-            else:
+            else:  # 一般情况取值
                 lft, rgt = matrix[mid_mn][mid_mn], matrix[mid_mn+1][mid_mn+1] 
             if rgt < target:
                 low_mn = mid_mn + 1
