@@ -65,30 +65,46 @@ class Solution:
         return False
   
     
-    def searchMatrix3(self, matrix, target):
+     def searchMatrix3(self, matrix, target):
         # 基线条件(空矩阵)
-        if len(matrix) == 0:
+        if len(matrix) == 0:  # 空矩阵
             return False
         elif len(matrix) > 0 and len(matrix[0]) == 0:
             return False
         # 先在对角线上找到符合条件matrix[i][i]<target<matrix[i+1][i+1]的点
         m, n  = len(matrix), len(matrix[0])
         min_mn = min(m, n)
+        inf = float('inf')
         low_mn, high_mn = 0, min_mn-1
         while low_mn <= high_mn:
             mid_mn = (low_mn+high_mn) // 2
-            if mid_mn in (0, min_mn-1):
-                return False
-            else:
-                if matrix[mid_mn+1][mid_mn+1] < target:
-                    low_mn = mid_mn + 1
-                elif matrix[mid_mn][mid_mn] > target:
-                    high_mn = mid_mn - 1
+            # 为diag序列的左边添加一个-inf，右边添加一个inf的操作(这样总是能找到这样的元素--有可能取边界值)
+            if mid_mn == 0:
+                if min_mn == 1:
+                    lft, rgt = -inf, matrix[0][0]
                 else:
-                    return True
-       # 递归条件(二维情况:把矩阵分成两块来讨论)
-        sub_matrix_1 = [i[:mid_mn+1] for i in matrix[mid_mn+1:]]
-        sub_matrix_2 = [i[mid_mn+1:] for i in matrix[:mid_mn+1]]
+                    lft, rgt = matrix[0][0], matrix[1][1]
+            elif mid_mn == min_mn-1:
+                lft, rgt = matrix[mid_mn][mid_mn], inf
+            else:
+                lft, rgt = matrix[mid_mn][mid_mn], matrix[mid_mn+1][mid_mn+1] 
+            if rgt < target:
+                low_mn = mid_mn + 1
+            elif lft > target:
+                high_mn = mid_mn - 1
+            elif lft < target < rgt:  #找到符合条件的点就跳出循环
+                break
+            else:  # mid_mn和mid_mn+1和target相等时
+                return True
+        # 递归条件(二维情况:把矩阵分成两块来讨论)
+        try:
+            sub_matrix_1 = [i[:mid_mn+1] for i in matrix[mid_mn+1:]]
+        except Exception as e:
+            sub_matrix_1 = [[]]
+        try:
+            sub_matrix_2 = [i[mid_mn+1:] for i in matrix[:mid_mn+1]]
+        except Exception as e:
+            sub_matrix_2 = [[]]
         sM1 = self.searchMatrix3(sub_matrix_1, target)
         sM2 = self.searchMatrix3(sub_matrix_2, target)
         return (sM1 or sM2)
