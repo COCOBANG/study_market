@@ -42,7 +42,6 @@ def div_2_class(list_input):
         (3.2) 取数编码is_take也有递推公式(思路上和value的递推是一致的)：
                 is_take[i, j] = is_take[i, j-1], 如果不取第i个元素
                 is_take[i, j] = 2^(num-i) + is_take[i-1, j-n[i]], 如果取第i个元素
-    
     """
     # (1)获得参数和初始化数组
     sup = math.floor(sum(list_input)/2)  # 背包约束的最大值
@@ -53,14 +52,14 @@ def div_2_class(list_input):
     for i in range(1, num+1):
         num_to_take_or_not = list_input[i-1]  # 第i个元素(由于value/is_take第0行表示不拿数，因此这里取数下标是(i-1))
         for j in range(1, sup+1):             # 查看第i个元素在不同的容量约束j([1, sup])下的取值情况
-            # value(i, j)
+            # value[i, j]
             not_take = value[i-1, j]   # not_take: 不取第i个元素的价值
             if j>=num_to_take_or_not:  # take: 取第i个元素的价值，注意j>=n(i)的约束
                 take = value[i-1, j-num_to_take_or_not] + num_to_take_or_not
             else:
                 take = -1
             value[i, j] = max(not_take, take)
-            # is_take(i, j)
+            # is_take[i, j]
             if take >= not_take:
                 is_take[i, j] = 2**(num-i) + is_take[i-1, j-num_to_take_or_not]
             else:
@@ -83,8 +82,10 @@ def div_2_class(list_input):
 
 if __name__ == '__main__':
     # test1
-    list_input = [1, 2, 6, 9]
+    list_input = np.array([1, 2, 6, 9])
     class1, class2, delta = div_2_class(list_input)
+    print('input:')
+    print(list_input)
     print('class1:')
     print(class1)
     print('class2:')
@@ -95,6 +96,8 @@ if __name__ == '__main__':
     # test2
     list_input = [1, 2, 6, 9, 5, 19, 14, 1, 8]
     class1, class2, delta = div_2_class(list_input)
+    print('input:')
+    print(list_input)
     print('class1:')
     print(class1)
     print('class2:')

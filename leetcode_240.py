@@ -5,7 +5,7 @@ leetcode_240.py
 @author: yuxun
 """
 """
-leetcode_240: searchMatrix
+leetcode_4: searchMatrix
 Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
 Integers in each row are sorted in ascending from left to right.
 Integers in each column are sorted in ascending from top to bottom.
@@ -108,14 +108,14 @@ class Solution:
             sub_matrix_2 = [i[mid_mn+1:] for i in matrix[:mid_mn+1]]
         except Exception as e:
             sub_matrix_2 = [[]]
-        sM1 = self.searchMatrix3(sub_matrix_1, target)
-        sM2 = self.searchMatrix3(sub_matrix_2, target)
+        sM1 = self.searchMatrix2(sub_matrix_1, target)
+        sM2 = self.searchMatrix2(sub_matrix_2, target)
         return (sM1 or sM2)
 
 if __name__ == '__main__':
     solu = Solution()
     # test1
-    target = 55
+    target = 20
     matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]]
     print('test of searchMatrix:')
     print('matrix is:')
@@ -132,7 +132,7 @@ if __name__ == '__main__':
     print(f'searchMatrix3 running time is: {round(time.time()-start, 8)}')
     
     # test2
-    target = 17
+    target = 131540
     m, n = 5000, 5500
     matrix = np.zeros((m, n), dtype='int')
     matrix[0][0] = np.random.randint(0, 20)

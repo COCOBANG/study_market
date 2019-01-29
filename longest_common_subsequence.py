@@ -103,7 +103,7 @@ def LCString(list_a, list_b):
         考虑list_b的第0个元素时，value[:, 0] = 0
     (3) 取数编码is_take也有递推公式(思路上和value的递推是一致的)：
             is_take[i, j] = 2^(num-i) + is_take[i-1, j-1], 如果list_a[i]==list_b[j]
-            is_take[i, j] = 0
+            is_take[i, j] = 0, 如果list_a[i]!=list_b[j]
     """
     # (1)获得参数和初始化数组
     length_a = len(list_a)  # list_a长度
@@ -193,7 +193,7 @@ if __name__ == '__main__':
     print('LCString of them:')
     print(LCString(list_a, list_b))
     # test of LIS
-    list_input = np.random.randint(100, size=10)
+    list_input = [5, 4, 58, 10, 9, 46]
     print('test of LIS:')
     print(f'list_input: {list_input}')
     print('LIS of list_input:')

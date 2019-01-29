@@ -104,6 +104,27 @@ list_input = [14, 5, 7, 1, 12]
 print(quicksort(list_input))
 
 
+# 归并排序
+def mergesort(seq):
+    mid = len(seq) // 2
+    lft, rgt = seq[:mid], seq[mid:]
+    if len(lft) > 1:  # 基线条件
+        lft = mergesort(lft)
+    if len(rgt) > 1:
+        rgt = mergesort(rgt)
+    res = []  # 递归后处理--将lft和rgt的结果整合在res里(逐一将最大值加入res--lft和rgt的最大值肯定在末尾)
+    while lft and rgt:  # while循环--逐一将最大值加入res，直至lft或rgt成为空的list
+        if lft[-1] >= rgt[-1]:
+            res.append(lft.pop())
+        else:
+            res.append(rgt.pop())
+    res.reverse()
+    return (lft or rgt) + res
+
+list_input = [14, 5, 7, 1, 12]
+print(mergesort(list_input))
+
+
 # 图与广度优先搜索
 ## 利用字典构建一个图
 graph = {}

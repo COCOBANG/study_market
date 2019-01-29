@@ -70,10 +70,11 @@ def gcd_integer_solution(p, q):
     # 递归的过程：调用函数取出(n+1)轮的解(x,y)，利用递推公式计算n轮的解(x,y)并return它
     ### 递归式子之前的过程是“向下递归”，之后的过程是“向上递归”
     else:
-        x, y = gcd_integer_solution(p, p%q)  # (p,q)-->(q,p%q)的递归过程
-        a = y  # 将(n+1)轮的解转换为n轮，引入a是避免交叉赋值出错
-        y = x - (p//q)*a
-        x = a
+        x, y = gcd_integer_solution(q, p%q)  # (p,q)-->(q,p%q)的递归过程
+        x, y = y, x - (p//q)*y  # 将(n+1)轮的解转换为n轮
+        # a = y  # 将(n+1)轮的解转换为n轮，引入a是避免交叉赋值出错
+        # y = x - (p//q)*a
+        # x = a
         return x, y
 
 # integer_solution
@@ -85,7 +86,7 @@ def integer_solution(p, q, c):
         c: 方程右边的系数
     Outputs:
         x, y: 方程的解
-    """     
+    """
     gcd_p_q = gcd(p, q)
     # 只有在方程有解时才求解
     if c%gcd_p_q == 0:
@@ -117,7 +118,7 @@ if __name__ == '__main__':
     print(f'Can Measure?--Answer: {canMeasureWater(x, y, z)}')
     # test1 of integer_solution():
     print('test of integer_solution')
-    p, q, c = 5, 3, 4
+    p, q, c = 3, 4, 5
     x, y = integer_solution(p, q, c)
     print(f'The equation is: {p}x + {q}y = {c}')
     print(f'Solution: x={x}; y={y}')

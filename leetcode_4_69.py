@@ -57,7 +57,7 @@ class Solution:
         short = [-inf] + short + [inf]
         long = [-inf] + long + [inf]
         low = 1
-        high = len(short) - 1 
+        high = len(short) - 1
         while low <= high:
             mid = (low+high) // 2
             i = mid                 # 实际上是在short数组里进行查找

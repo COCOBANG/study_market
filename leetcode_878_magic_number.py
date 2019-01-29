@@ -46,7 +46,7 @@ class Solution:
         low, high = 0, 10**15  # 初始化上下界
         while low < high:  # 进行二分查找
             mid = (low + high) // 2
-            if magic_below_n(mid) < N:
+            if magic_below_n(mid) < N:  # low和high的处理公式使得最终找到的是取N值的第一个n
                 low = mid + 1
             else:
                 high = mid
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     import time
     
     print('test1 of solution')
-    N, A, B = 3, 6, 4
+    N, A, B = 8, 12, 15
     solu = Solution()
     starttime = time.time()
     print(f'Inputs: A={A}, B={B}, N={N}')
